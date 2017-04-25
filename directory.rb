@@ -21,10 +21,11 @@ end
 def print(names)
   names.each do |name|
   puts name
+  end
 end
 
 def print_footer(names)
-  puts "Overall, we have #{student.count} great students"
+  puts "Overall, we have #{names.count} great students"
 end
 
 print_header
