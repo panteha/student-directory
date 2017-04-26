@@ -14,7 +14,7 @@ end
 def pick_letter(students)
   puts "Which specific letter do you choose?"
   letter = gets.chomp
-  puts "We are going to list the students whose name starts with letter #{letter} and is shorter than 12 character"
+  puts "List the students whose names start with letter #{letter.upcase} or #{letter.downcase} and are shorter than 12 characters"
   picked_student = []
   students.each do |student|
     picked_student << student if (student[:name].downcase.start_with? letter.downcase) && (student[:name].delete(" ").length < 12)
@@ -28,10 +28,11 @@ def print_header
 end
 
 def print(picked_student)
-
-  picked_student.each_with_index do |picked_student, index|
-  puts "#{index+1}. #{picked_student[:name]} (#{picked_student[:cohort]} cohort)"
-end
+  i = 0
+  while i < picked_student.length do
+        puts "#{i+1}. #{picked_student[i][:name]} (#{picked_student[i][:cohort]} cohort)"
+        i += 1
+  end
 end
 
 def print_footer(names)
