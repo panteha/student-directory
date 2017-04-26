@@ -12,11 +12,12 @@ def input_students
 end
 
 def pick_letter(students)
-  puts "Which letter do you want to see?"
+  puts "Which specific letter do you choose?"
   letter = gets.chomp
+  puts "We are going to list the students whose name starts with letter #{letter} and is shorter than 12 character"
   picked_student = []
   students.each do |student|
-    picked_student << student if student[:name].start_with? letter
+    picked_student << student if (student[:name].downcase.start_with? letter.downcase) && (student[:name].delete(" ").length < 12)
   end
   return picked_student
 end
