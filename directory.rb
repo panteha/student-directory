@@ -33,7 +33,7 @@ end
 def print(picked_student)
   i = 0
   while i < picked_student.length do
-        puts "#{i+1}. #{picked_student[i][:name]},hobby:#{picked_student[i][:hobby]},country of birth:#{picked_student[i][:country]}, (#{picked_student[i][:cohort]} cohort)"
+        puts "#{i+1}. #{picked_student[i][:name].center(15, " ")}hobby:#{picked_student[i][:hobby].center(15, " ")}country of birth:#{picked_student[i][:country].center(15, " ")}(#{picked_student[i][:cohort]} cohort)"
         i += 1
   end
 end
