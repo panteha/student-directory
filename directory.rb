@@ -11,22 +11,34 @@ def input_students
   students
 end
 
+def pick_letter(students)
+  puts "Which letter do you want to see?"
+  letter = gets.chomp
+  picked_student = []
+  students.each do |student|
+    picked_student << student if student[:name].start_with? letter
+  end
+  return picked_student
+end
+
 def print_header
   puts "The students of Makers Academy"
   puts "-------------"
 end
 
-def print(students)
-  students.each_with_index do |student, index|
-  puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
+def print(picked_student)
+
+  picked_student.each_with_index do |picked_student, index|
+  puts "#{index+1}. #{picked_student[:name]} (#{picked_student[:cohort]} cohort)"
 end
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+  puts "Overall, we have #{names.count} chosen great students."
 end
 
 students = input_students
+picked_student = pick_letter(students)
 print_header
-print(students)
-print_footer(students)
+print(picked_student)
+print_footer(picked_student)
