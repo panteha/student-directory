@@ -18,7 +18,11 @@ def input_students
 
     students << {name: entry[0], hobby: entry[1], country: entry[2], cohort: entry[3].to_sym}
 
-    puts "Now we have #{students.count} great students"
+    if students.count == 1
+      puts "Now we have #{students.count} great student."
+    else
+      puts "Now we have #{students.count} great students."
+    end
     name = gets.chomp
 
     entry = name.split(",")
@@ -51,7 +55,7 @@ def print(picked_students)
   cohort_list = picked_students.map do |student|
     student[:cohort]
   end
-  cohort_list = cohort_list.uniq
+  cohort_list = cohort_list.sort.uniq
   i = 0
   cohort_list.each do |cohort|
     cohort_students = picked_students.find_all {|student| student[:cohort] == cohort}
@@ -64,7 +68,13 @@ def print(picked_students)
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} chosen great students."
+  if names.count == 0
+    puts "Overall, we have #{names.count} chosen great student."
+  elsif names.count == 1
+    puts "Overall, we have #{names.count} chosen great student."
+  else
+    puts "Overall, we have #{names.count} chosen great students."
+  end
 end
 
 students = input_students
