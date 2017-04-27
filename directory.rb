@@ -16,8 +16,7 @@ def input_students
       entry[3] = "november"
     end
 
-    students << {name: entry[0], hobby: entry[1],
-                 country: entry[2], cohort: entry[3].to_sym}
+    students << {name: entry[0], hobby: entry[1], country: entry[2], cohort: entry[3].to_sym}
 
     puts "Now we have #{students.count} great students"
     name = gets.chomp
@@ -47,12 +46,21 @@ def print_header
   puts "-------------"
 end
 
-def print(picked_student)
-  i = 0
-  while i < picked_student.length do
-        puts "#{i+1}. #{picked_student[i][:name].center(15, " ")}hobby:#{picked_student[i][:hobby].center(15, " ")}country of birth:#{picked_student[i][:country].center(15, " ")}cohort:#{picked_student[i][:cohort].to_s.center(15, " ")}"
-        i += 1
+def print(picked_students)
+
+  cohort_list = picked_students.map do |student|
+    student[:cohort]
   end
+  cohort_list = cohort_list.uniq
+  i = 0
+  cohort_list.each do |cohort|
+    cohort_students = picked_students.find_all {|student| student[:cohort] == cohort}
+    cohort_students.each do |student|
+      puts "#{i+1}. #{student[:name].center(15, " ")}hobby:#{student[:hobby].center(15, " ")}country of birth:#{student[:country].center(15, " ")}cohort:#{student[:cohort].to_s.center(15, " ")}"
+      i += 1
+    end
+  end
+
 end
 
 def print_footer(names)
