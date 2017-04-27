@@ -2,7 +2,8 @@ def input_students
   puts "Please enter the names of the student, hobbies, country of birth, cohort:"
   puts "To finish, just hit return twice"
   students = []
-  name = gets.chomp
+  name = gets
+  name.gsub!("\n","")
   entry = name.split(",")
 
   while !entry.empty? do
@@ -23,10 +24,9 @@ def input_students
     else
       puts "Now we have #{students.count} great students."
     end
-    name = gets.chomp
-
+    name = gets
+    name.gsub!("\n","")
     entry = name.split(",")
-
 
   end
   students
@@ -34,7 +34,8 @@ end
 
 def pick_letter(students)
   puts "Which specific letter do you choose?"
-  letter = gets.chomp
+  letter = gets
+  letter.gsub!("\n","")
   puts "*****************************************************************************************"
   puts "List the students whose names start with letter #{letter.upcase} or #{letter.downcase} and are shorter than 12 characters"
   puts "*****************************************************************************************"
