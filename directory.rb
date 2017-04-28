@@ -33,22 +33,28 @@ def input_students
 end
 
 def pick_letter(students)
+  if students.count != 0
   puts "Which specific letter do you choose?"
   letter = gets
   letter.gsub!("\n","")
-  puts "*****************************************************************************************"
-  puts "List the students whose names start with letter #{letter.upcase} or #{letter.downcase} and are shorter than 12 characters"
-  puts "*****************************************************************************************"
   picked_student = []
   students.each do |student|
     picked_student << student if (student[:name].downcase.start_with? letter.downcase) && (student[:name].delete(" ").length < 12)
   end
+  if picked_student.count != 0
+    puts "*****************************************************************************************"
+    puts "List the students whose names start with letter #{letter.upcase} or #{letter.downcase} and are shorter than 12 characters"
+    puts "*****************************************************************************************"
+  end
   return picked_student
 end
+end
 
-def print_header
-  puts "The students of Makers Academy"
-  puts "-------------"
+def print_header(picked_student)
+  if picked_student.count != 0
+    puts "The students of Makers Academy"
+    puts "-------------"
+  end
 end
 
 def print(picked_students)
@@ -80,6 +86,8 @@ end
 
 students = input_students
 picked_student = pick_letter(students)
-print_header
+if picked_student != nil
+print_header(picked_student)
 print(picked_student)
 print_footer(picked_student)
+end
