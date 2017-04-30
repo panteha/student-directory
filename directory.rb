@@ -1,10 +1,10 @@
+@students = []
 def input_students
   puts "Please enter the names of the student, hobbies, country of birth, cohort:"
   puts "To finish, just hit return twice"
   name = gets
   name.gsub!("\n","")
   entry = name.split(",")
-  students = []
   while !entry.empty? do
     for i in 0..2
       if (entry[i] == "" || entry[i] == nil || entry[i] == " " )
@@ -16,28 +16,27 @@ def input_students
       entry[3] = "november"
     end
 
-    students << {name: entry[0], hobby: entry[1], country: entry[2], cohort: entry[3].to_sym}
+    @students << {name: entry[0], hobby: entry[1], country: entry[2], cohort: entry[3].to_sym}
 
-    if students.count == 1
-      puts "Now we have #{students.count} great student."
+    if @students.count == 1
+      puts "Now we have #{@students.count} great student."
     else
-      puts "Now we have #{students.count} great students."
+      puts "Now we have #{@students.count} great students."
     end
     name = gets
     name.gsub!("\n","")
     entry = name.split(",")
-
   end
-  students
+  #students
 end
 
-def pick_letter(students)
-  if students.count != 0
+def pick_letter
+  if @students.count != 0
   puts "Which specific letter do you choose?"
   letter = gets
   letter.gsub!("\n","")
   picked_student = []
-  students.each do |student|
+  @students.each do |student|
     picked_student << student if (student[:name].downcase.start_with? letter.downcase) && (student[:name].delete(" ").length < 12)
   end
   if picked_student.count != 0
@@ -83,31 +82,40 @@ def print_footer(names)
   end
 end
 
+# Interactive menu:
 
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exist"
+end
+
+def show_student
+  picked_student = pick_letter
+  if picked_student != nil
+    print_header(picked_student)
+    print(picked_student)
+    print_footer(picked_student)
+  end
+end
+
+def process(selection)
+  case selection
+  when "1"
+    input_students
+  when "2"
+    show_student
+  when "9"
+    exit
+  else
+    puts "I don't know what you meant, try again"
+  end
+end
 
 def interactive_menu
-  students = []
   loop do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exist"
-    selection = gets.chomp
-    case selection
-    when "1"
-      students += input_students
-    when "2"
-      puts students
-      picked_student = pick_letter(students)
-      if picked_student != nil
-      print_header(picked_student)
-      print(picked_student)
-      print_footer(picked_student)
-      end
-    when "9"
-      exit
-    else
-      puts "I don't know what you meant, try again"
-    end
+    print_menu
+    process(gets.chomp)
   end
 end
 
