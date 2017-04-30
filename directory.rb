@@ -1,11 +1,10 @@
 def input_students
   puts "Please enter the names of the student, hobbies, country of birth, cohort:"
   puts "To finish, just hit return twice"
-  students = []
   name = gets
   name.gsub!("\n","")
   entry = name.split(",")
-
+  students = []
   while !entry.empty? do
     for i in 0..2
       if (entry[i] == "" || entry[i] == nil || entry[i] == " " )
@@ -84,10 +83,32 @@ def print_footer(names)
   end
 end
 
-students = input_students
-picked_student = pick_letter(students)
-if picked_student != nil
-print_header(picked_student)
-print(picked_student)
-print_footer(picked_student)
+
+
+def interactive_menu
+  students = []
+  loop do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exist"
+    selection = gets.chomp
+    case selection
+    when "1"
+      students += input_students
+    when "2"
+      puts students
+      picked_student = pick_letter(students)
+      if picked_student != nil
+      print_header(picked_student)
+      print(picked_student)
+      print_footer(picked_student)
+      end
+    when "9"
+      exit
+    else
+      puts "I don't know what you meant, try again"
+    end
+  end
 end
+
+interactive_menu
