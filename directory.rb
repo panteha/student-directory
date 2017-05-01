@@ -1,40 +1,38 @@
 @students = []
+
+def add_student(entry)
+  for i in 0..2
+    if (entry[i] == "" || entry[i] == nil || entry[i] == " " )
+      entry[i] = "Blank"
+    end
+  end
+  if (entry[3] == "" || entry[3] == nil || entry[3] == " ")
+    entry[3] = "november"
+  end
+  @students << {name: entry[0], hobby: entry[1], country: entry[2], cohort: entry[3].to_sym}
+end
+
+
+
 def input_students
   puts "Please enter the names of the student, hobbies, country of birth, cohort:"
   puts "To finish, just hit return twice"
-  name = STDIN.gets
-  name.gsub!("\n","")
+  name = STDIN.gets.chomp
   entry = name.split(",")
   while !entry.empty? do
-    for i in 0..2
-      if (entry[i] == "" || entry[i] == nil || entry[i] == " " )
-        entry[i] = "Blank"
-      end
-    end
+    add_student(entry)
+    puts "Now we have #{@students.count} great student." if @students.count == 1
+    puts "Now we have #{@students.count} great students." if @students.count != 1
 
-    if (entry[3] == "" || entry[3] == nil || entry[3] == " ")
-      entry[3] = "november"
-    end
-
-    @students << {name: entry[0], hobby: entry[1], country: entry[2], cohort: entry[3].to_sym}
-
-    if @students.count == 1
-      puts "Now we have #{@students.count} great student."
-    else
-      puts "Now we have #{@students.count} great students."
-    end
-    name = STDIN.gets
-    name.gsub!("\n","")
+    name = STDIN.gets.chomp
     entry = name.split(",")
   end
-  #students
 end
 
 def pick_letter
   if @students.count != 0
   puts "Which specific letter do you choose?"
-  letter = STDIN.gets
-  letter.gsub!("\n","")
+  letter = STDIN.gets.chomp
   picked_student = []
   @students.each do |student|
     picked_student << student if (student[:name].downcase.start_with? letter.downcase) && (student[:name].delete(" ").length < 12)
@@ -44,7 +42,7 @@ def pick_letter
     puts "List the students whose names start with letter #{letter.upcase} or #{letter.downcase} and are shorter than 12 characters"
     puts "*****************************************************************************************"
   end
-  return picked_student
+  picked_student
 end
 end
 
@@ -55,12 +53,16 @@ def print_header(picked_student)
   end
 end
 
-def print(picked_students)
-
+def sort_cohort(picked_students)
   cohort_list = picked_students.map do |student|
     student[:cohort]
   end
   cohort_list = cohort_list.sort.uniq
+end
+
+
+def print(picked_students)
+  cohort_list = sort_cohort(picked_students)
   i = 0
   cohort_list.each do |cohort|
     cohort_students = picked_students.find_all {|student| student[:cohort] == cohort}
@@ -73,9 +75,7 @@ def print(picked_students)
 end
 
 def print_footer(names)
-  if names.count == 0
-    puts "Overall, we have #{names.count} chosen great student."
-  elsif names.count == 1
+  if names.count == 0 || names.count == 1
     puts "Overall, we have #{names.count} chosen great student."
   else
     puts "Overall, we have #{names.count} chosen great students."
@@ -115,8 +115,9 @@ end
 def load_students(filename = "students.csv")
   file = File.open(filename,"r")
   file.readlines.each do |line|
-  name, hobby, country, cohort = line.chomp.split(",")
-    @students << {name: name, hobby: hobby, country: country, cohort: cohort.to_sym}
+    name, hobby, country, cohort = line.chomp.split(",")
+    entry = [name, hobby, country, cohort]
+    add_student(entry)
   end
   file.close
 end
