@@ -109,7 +109,7 @@ def save_students
     file.puts csv_file
   end
   file.close
-  puts "File saved"
+  puts "Changes saved to students.csv"
 end
 
 def load_students(filename = "students.csv")
@@ -120,6 +120,7 @@ def load_students(filename = "students.csv")
     entry = [name, hobby, country, cohort]
     add_student(entry)
   end
+  puts "students.csv loaded"
   file.close
 end
 
@@ -134,6 +135,7 @@ def process(selection)
   when "4"
     load_students
   when "9"
+    puts "Exit from program"
     exit
   else
     puts "I don't know what you meant, try again"
