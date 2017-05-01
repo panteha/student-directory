@@ -1,3 +1,5 @@
+require 'CSV'
+
 @students = []
 
 def add_student(entry)
@@ -11,8 +13,6 @@ def add_student(entry)
   end
   @students << {name: entry[0], hobby: entry[1], country: entry[2], cohort: entry[3].to_sym}
 end
-
-
 
 def input_students
   puts "Please enter the names of the student, hobbies, country of birth, cohort:"
@@ -101,25 +101,19 @@ def show_student
   end
 end
 
-def save_students
-  file = File.open("students.csv", "w")
-  @students.each do |student|
-    student_data = [student[:name], student[:hobby], student[:country], student[:cohort]]
-    csv_file = student_data.join(",")
-    file.puts csv_file
+def save_students(filename = "students.csv")
+  CSV.open(filename, "w") do |csv|
+    @students.each do |student|
+      csv << [student[:name], student[:hobby], student[:country], student[:cohort]]
+    end
   end
-  file.close
   puts "Changes saved to students.csv"
 end
 
 def load_students(filename = "students.csv")
   @students = []
-  File.open(filename,"r") do |file|
-  file.readlines.each do |line|
-    name, hobby, country, cohort = line.chomp.split(",")
-    entry = [name, hobby, country, cohort]
+  CSV.foreach(filename) do |entry|
     add_student(entry)
-  end
   end
   puts "students.csv loaded"
 end
@@ -133,16 +127,12 @@ def process(selection)
   when "3"
     puts "Which file would you like to save to?"
     filename = gets.chomp
-    if File.exist?(filename)
-      save_students
-    else
-      puts "Sorry, #{filename} doesn't exist."
-    end
+    save_students(filename)
   when "4"
     puts "What file would you like to load?"
     filename = gets.chomp
       if File.exist?(filename)
-        load_students
+        load_students(filename)
       else
         puts "Sorry, #{filename} doesn't exist."
       end
