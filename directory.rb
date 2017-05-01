@@ -113,18 +113,15 @@ def save_students
 end
 
 def load_students(filename = "students.csv")
-
   @students = []
-  file = File.open(filename,"r")
+  File.open(filename,"r") do |file|
   file.readlines.each do |line|
     name, hobby, country, cohort = line.chomp.split(",")
     entry = [name, hobby, country, cohort]
     add_student(entry)
   end
+  end
   puts "students.csv loaded"
-  file.close
-
-
 end
 
 def process(selection)
