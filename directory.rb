@@ -113,6 +113,7 @@ def save_students
 end
 
 def load_students(filename = "students.csv")
+
   @students = []
   file = File.open(filename,"r")
   file.readlines.each do |line|
@@ -122,6 +123,8 @@ def load_students(filename = "students.csv")
   end
   puts "students.csv loaded"
   file.close
+
+
 end
 
 def process(selection)
@@ -131,9 +134,21 @@ def process(selection)
   when "2"
     show_student
   when "3"
-    save_students
+    puts "Which file would you like to save to?"
+    filename = gets.chomp
+    if File.exist?(filename)
+      save_students
+    else
+      puts "Sorry, #{filename} doesn't exist."
+    end
   when "4"
-    load_students
+    puts "What file would you like to load?"
+    filename = gets.chomp
+      if File.exist?(filename)
+        load_students
+      else
+        puts "Sorry, #{filename} doesn't exist."
+      end
   when "9"
     puts "Exit from program"
     exit
@@ -143,7 +158,6 @@ def process(selection)
 end
 
 def interactive_menu
-  load_students
   loop do
     print_menu
     process(STDIN.gets.chomp)
