@@ -113,6 +113,7 @@ def save_students
 end
 
 def load_students(filename = "students.csv")
+  @students = []
   file = File.open(filename,"r")
   file.readlines.each do |line|
     name, hobby, country, cohort = line.chomp.split(",")
